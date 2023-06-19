@@ -167,7 +167,21 @@ def add_activity(request, uid):
         return render(request, 'PropertyInfo/add-activity.html', context)
 
 
+import qrcode
+import qrcode.image.svg
+from io import BytesIO
+
+
 def view_qr(request, uid):
     property_info = Property.objects.get(uid=uid)
-    context = {'property_info': property_info}
+    factory = qrcode.image.svg.SvgPathImage
+    url = 'http://127.0.0.1:8000/1a05a526-2dc5-42f9-b41b-3e112d0f4f0f/'
+    img = qrcode.make(url, image_factory=factory, box_size=20)
+    stream = BytesIO()
+    img.save(stream)
+    # context["svg"] = stream.getvalue().decode()
+    context = {'property_info': property_info, 'svg': stream.getvalue().decode()}
+
+    # http://127.0.0.1:8000/1a05a526-2dc5-42f9-b41b-3e112d0f4f0f/
+
     return render(request, 'PropertyInfo/view-qr.html', context)

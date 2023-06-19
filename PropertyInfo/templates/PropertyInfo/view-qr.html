@@ -1,10 +1,71 @@
+{% extends "PropertyInfo/base.html" %}
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>View QR Code</title>
+  <meta charset="UTF-8">
+  <title>View QR Code</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+        rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+        crossorigin="anonymous">
 </head>
 <body>
-This is where we will view the qr code for this property. {{ property_info }}
+
+<div class="container shadow"
+       style="width: 800px; margin-top: 5em; padding: 2em">
+      <div class="input-group mb-3">
+        <div style="margin: auto">
+          <p class="text-center">Download QR code for {{ property_info.property_name }}</p>
+          {{ svg|safe }}
+          <br>
+          <div class="input-group mb-3">
+            <input id="downloadPNG" type="submit" style="max-width: 200px; margin: auto" class="form-control" value="Download .png">
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <script>
+
+
+function downloadSVGAsPNG(e){
+  const canvas = document.createElement("canvas");
+  const svg = document.querySelector('svg');
+  const base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));
+  const w = parseInt(svg.getAttribute('width'));
+  const h = parseInt(svg.getAttribute('height'));
+  const img_to_download = document.createElement('img');
+  img_to_download.src = 'data:image/svg+xml;base64,' + base64doc;
+  console.log(w, h);
+  img_to_download.onload = function () {
+    console.log('img loaded');
+    canvas.setAttribute('width', w);
+    canvas.setAttribute('height', h);
+    const context = canvas.getContext("2d");
+    //context.clearRect(0, 0, w, h);
+    context.drawImage(img_to_download,0,0,w,h);
+    const dataURL = canvas.toDataURL('image/png');
+    if (window.navigator.msSaveBlob) {
+      window.navigator.msSaveBlob(canvas.msToBlob(), "download.png");
+      e.preventDefault();
+    } else {
+      const a = document.createElement('a');
+      const my_evt = new MouseEvent('click');
+      a.download = 'download.png';
+      a.href = dataURL;
+      a.dispatchEvent(my_evt);
+    }
+    //canvas.parentNode.removeChild(canvas);
+  }  
+}
+
+const downloadPNG = document.querySelector('#downloadPNG');
+downloadPNG.addEventListener('click', downloadSVGAsPNG);
+
+
+</script>
+
 </body>
 </html>
+{% endblock content %}
