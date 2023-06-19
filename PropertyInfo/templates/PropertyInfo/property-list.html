@@ -1,0 +1,24 @@
+{% extends "PropertyInfo/base.html" %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Property List</title>
+</head>
+<body>
+Property List Page
+<br>
+<br>
+<a href="{% url 'add-property' %}">Add Property</a>
+<br>
+<ol>
+{% for property in properties %}
+<li><a href="{% url 'property-detail' uid=property.uid %}">{{ property.property_name }}</a></li>
+{% endfor %}
+</ol>
+</body>
+</html>
+
+{% endblock content %}

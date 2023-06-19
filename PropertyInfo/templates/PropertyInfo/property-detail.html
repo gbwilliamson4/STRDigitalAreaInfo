@@ -1,0 +1,57 @@
+{% extends "PropertyInfo/base.html" %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+This is where we will view the info that has been input by user.
+<br>
+<div class="container p-5 my-5 text-center border">
+<a href="{% url 'property-view' property.uid %}">Guest View</a> -
+
+<a href="{% url 'edit-property' uid=property.uid %}">Edit Property</a> -
+
+<a href="{% url 'delete-property' uid=property.uid %}">Delete Property</a>
+<br>
+<br>
+    <p>
+        Property Name: <br>
+        {{ property.property_name }} <br><br>
+
+        Property Description: <br>
+        {{ property.property_description }} <br><br>
+
+        Property ID: <br>
+        {{ property.uid }}
+    </p>
+</div>
+<br>
+<div class="text-center">
+<a href="{% url 'add-activity' uid=property.uid %}">Add Activity</a>
+</div>
+
+<br>
+<br>
+<h1 class="text-center">Current Activities</h1>
+
+{% if activity_info %}
+    {% for key, values in activity_info.items %}
+        <div class="container p-5 my-5 text-center border">
+            <h3>{{ key }}</h3> <br>
+            {% for v in values %}
+                {{ v.location }} - {{ v.url }}<br>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% else %}
+<p>No activities added yet.</p>
+{% endif %}
+
+</body>
+</html>
+
+{% endblock content %}
