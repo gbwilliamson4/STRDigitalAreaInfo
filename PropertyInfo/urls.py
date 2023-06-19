@@ -11,6 +11,7 @@ urlpatterns = [
     path('properties/<uuid:uid>/delete', views.delete_property, name='delete-property'),
     path('<uuid:uid>/', views.property_view, name='property-view'),
     path('properties/<uuid:uid>/add-activity', views.add_activity, name='add-activity'),
+    path('properties/<uuid:uid>/view-qr', views.view_qr, name='view-qr'),
 
     # User Management
     path('signup/', views.signup, name='signup'),

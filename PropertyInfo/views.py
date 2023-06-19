@@ -165,3 +165,9 @@ def add_activity(request, uid):
         activity_types = ActivityType.objects.filter(property=Property.objects.get(uid=uid))
         context = {'activity_types': activity_types}
         return render(request, 'PropertyInfo/add-activity.html', context)
+
+
+def view_qr(request, uid):
+    property_info = Property.objects.get(uid=uid)
+    context = {'property_info': property_info}
+    return render(request, 'PropertyInfo/view-qr.html', context)
