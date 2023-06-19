@@ -28,6 +28,7 @@
                             <br/>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
             <div class="container">
@@ -36,19 +37,22 @@
                 </div>
             </div>
 
-            <div class="container text-center">
-                {% if activity_info %}
-                    {% for key, values in activity_info.items %}
-                        <div class="container p-5 my-5 text-center border">
-                            <h3>{{ key }}</h3> <br>
-                            {% for v in values %}
-                            {{ v.location }} - {{ v.url }}<br>
+
+            <div class="container center">
+                <div class="motto-wrap">
+                    {% if activity_info %}
+                        {% for key, values in activity_info.items %}
+                            <div class="container p-5 my-5 text-center border">
+                                <h3><strong>{{ key }}</strong></h3> <br>
+                                {% for v in values %}
+                                {{ v.location }} - {{ v.url }}<br>
+                            {% endfor %}
+                            </div>
                         {% endfor %}
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p>No activities added yet.</p>
-                {% endif %}
+                    {% else %}
+                        <p>No activities added yet.</p>
+                    {% endif %}
+                </div>
             </div>
         </body>
 </html>
